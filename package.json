@@ -1,7 +1,9 @@
 {
   "name": "parameter-schema",
   "version": "0.1.0",
-  "private": true,
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "types/index.d.ts",
