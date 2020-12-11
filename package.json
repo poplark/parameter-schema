@@ -10,7 +10,7 @@
     "types",
     "docs"
   ],
-  "description": "TypeScript-first schema declaration and validation library, inspired by Zod.",
+  "description": "TypeScript-first schema declaration and validation library, inspired by Zod and raml-typesystem.",
   "author": {
     "name": "poplark",
     "email": "songkang666@126.com"

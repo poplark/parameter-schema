@@ -1,3 +1,4 @@
+export * from './schema';
 /**
  * 版本号
  */
