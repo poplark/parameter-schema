@@ -8,6 +8,7 @@ type BooleanSchemaType = 'boolean';
 type BooleanArraySchemaType = 'boolean[]';
 type ObjectSchemaType = 'object';
 type ObjectArraySchemaType = 'object[]';
+type ArraySchemaType = 'array';
 type SchemaType =
   | StringSchemaType
   | StringArraySchemaType
@@ -16,7 +17,8 @@ type SchemaType =
   | BooleanSchemaType
   | BooleanArraySchemaType
   | ObjectSchemaType
-  | ObjectArraySchemaType;
+  | ObjectArraySchemaType
+  | ArraySchemaType;
 
 export type ParameterType<T> = T extends StringSchemaType
   ? string
@@ -34,7 +36,9 @@ export type ParameterType<T> = T extends StringSchemaType
   ? Record<string, any>
   : T extends ObjectArraySchemaType
   ? Record<string, any>[]
-  : never;
+  : T extends ArraySchemaType
+  ? (string | number | boolean | Record<string, any>)[]
+  : number;
 
 export interface SchemaOption<T> {
   type: T;
@@ -52,6 +56,8 @@ export interface SchemaOption<T> {
     ? Record<string, Schema<SchemaType>>
     : T extends ObjectArraySchemaType
     ? ObjectSchema[]
+    : T extends ArraySchemaType
+    ? (StringSchema | NumberSchema | BooleanSchema | ObjectSchema)[]
     : undefined;
 }
 
@@ -231,6 +237,13 @@ export class Schema<T> {
   static objectArray(options?: Omit<SchemaOption<ObjectArraySchemaType>, 'type'>): ObjectArraySchema {
     return new ObjectArraySchema({
       type: 'object[]',
+      ...options,
+    });
+  }
+
+  static array(options?: Omit<SchemaOption<ArraySchemaType>, 'type'>): ArraySchema {
+    return new ArraySchema({
+      type: 'array',
       ...options,
     });
   }
@@ -716,6 +729,91 @@ export class ObjectArraySchema extends Schema<ObjectArraySchemaType> {
   }
 }
 
+export class ArraySchema extends Schema<ArraySchemaType> {
+  private _schemas: (StringSchema | NumberSchema | BooleanSchema | ObjectSchema)[];
+  private useValidate = false;
+  constructor(options: SchemaOption<ArraySchemaType>) {
+    super(options);
+    const { schemas, validate } = options;
+    if (!isNil(schemas) && schemas) {
+      // todo - check is schema
+      this._schemas = schemas;
+    } else {
+      this._schemas = [];
+    }
+    if (validate) {
+      this.useValidate = true;
+    }
+  }
+
+  setValidate(validate: (param: (string | number | boolean | Record<string, any>)[]) => boolean): ArraySchema {
+    this.useValidate = true;
+    this._validate = validate;
+    return this;
+  }
+
+  /**
+   * 可设置多个 Schemas 用于检验参数类型为 object 数组中的每项是否能通过 Schemas 中任意一个的检验，只有 object 数组每项都通过检查，才认定参数为合法的
+   * @param schemas - ObjectSchema 的集合
+   * @example
+   * ```typescript
+   * schema.setSchemas([
+   *   Schema.object({ a: Schema.string() }),
+   *   Schema.object({ b: Schema.nubmer() }),
+   * ]);
+   * ```
+   */
+  setSchemas(schemas: (StringSchema | NumberSchema | BooleanSchema | ObjectSchema)[]): ArraySchema {
+    this._schemas = schemas;
+    return this;
+  }
+
+  validate(
+    param: (string | number | boolean | Record<string, any>)[],
+  ): [boolean, (string | number | boolean | Record<string, any>)[] | undefined] {
+    if (isNil(param)) {
+      if (this.hasDefaultValue) {
+        return [true, this._default];
+      }
+      if (!this._isRequired) {
+        return [true, undefined];
+      }
+    }
+    param = param || [];
+    let result: ParameterType<ArraySchemaType> = [];
+    let isValid = false;
+    if (this.useValidate) {
+      isValid = this._validate(param);
+      if (isValid) {
+        result = result.concat(param);
+      }
+    } else {
+      isValid = true;
+      for (const item of param) {
+        let flag = false;
+        for (const schema of this._schemas) {
+          const [_isValid, _result] = (schema.validate as (
+            param: Record<string, any>,
+          ) => [boolean, Record<string, any> | undefined])(item as Record<string, any>);
+          if (_isValid && _result) {
+            flag = true;
+            result.push(_result);
+            break;
+          }
+        }
+        if (!flag) {
+          isValid = false;
+          break;
+        }
+      }
+    }
+    if (isValid) {
+      return [true, result];
+    } else {
+      return [false, undefined];
+    }
+  }
+}
+
 // todos
-// pure array
 // Date
