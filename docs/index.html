@@ -65,33 +65,111 @@
 				<a href="#parameter-schema" id="parameter-schema" style="color: inherit; text-decoration: none;">
 					<h1>parameter-schema</h1>
 				</a>
+				<p><a href="README_en.md">English</a> / 中文</p>
+				<p>因为调用 API 时，由于传的参数嵌套过于复杂，并受 Zod and raml-typesystem 启发，故创建了本库。</p>
+				<p>本库用于检验函数参数的合法性，支持对 string, number, boolean, object 以及他们相应的数组参数进行检验。</p>
 				<a href="#使用方法" id="使用方法" style="color: inherit; text-decoration: none;">
 					<h2>使用方法</h2>
 				</a>
-				<a href="#初始化命令" id="初始化命令" style="color: inherit; text-decoration: none;">
-					<h3>初始化命令</h3>
+				<a href="#导入" id="导入" style="color: inherit; text-decoration: none;">
+					<h3>导入</h3>
 				</a>
-				<pre><code><span class="hljs-attribute">yarn</span></code></pre>
-				<a href="#其他命令" id="其他命令" style="color: inherit; text-decoration: none;">
-					<h3>其他命令</h3>
+				<p>ESModule 方式</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { Schema } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;parameter-schema&#x27;</span>;</code></pre>
+				<p>CommonJS 方式</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> { Schema } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;parameter-schema&#x27;</span>);</code></pre>
+				<a href="#调用示例" id="调用示例" style="color: inherit; text-decoration: none;">
+					<h3>调用示例</h3>
 				</a>
-				<ul>
-					<li><p>开发环境中使用，支持自动编译及热更新</p>
-						<pre><code>yarn <span class="hljs-literal">start</span></code></pre>
-					</li>
-					<li><p>上线前使用，编译并压缩生成线上产物</p>
-						<pre><code><span class="hljs-attribute">yarn build</span></code></pre>
-					</li>
-					<li><p>对 TS 文件进行代码检查</p>
-						<pre><code><span class="hljs-attribute">yarn lint</span></code></pre>
-					</li>
-					<li><p>对 TS 文件进行代码修正</p>
-						<pre><code>yarn lint:<span class="hljs-built_in">fix</span></code></pre>
-					</li>
-				</ul>
+				<a href="#string-类型的参数" id="string-类型的参数" style="color: inherit; text-decoration: none;">
+					<h4>string 类型的参数</h4>
+				</a>
+				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> schema = Schema.string(); <span class="hljs-comment">// 做最简单检验，检验是不是一个字符串</span>
+<span class="hljs-comment">/**
+ * 可以设置一个默认值，检验 null 或 undefined 值时，将使用默认值作为输出结果
+ * schema.setDefault(&#x27;test&#x27;);
+ */</span>
+<span class="hljs-comment">/**
+ * 可以设置一个字符串的可选范围
+ * schema.setRange([&#x27;test&#x27;, &#x27;foo&#x27;, &#x27;bar&#x27;]):
+ */</span>
+<span class="hljs-comment">/**
+ * 也可以设置自定义的检验函数
+ * schema.setValidate((param: unknown): boolean =&gt; {
+ *   return /(test|foo|bar)/i.test();
+ * });
+ */</span>
+<span class="hljs-keyword">const</span> [ isValid, result ] = schema.validate(<span class="hljs-string">&#x27;test&#x27;</span>);
+<span class="hljs-built_in">console</span>.log(isValid, result); <span class="hljs-comment">// 输出 true &quot;test&quot;</span></code></pre>
+				<a href="#string-数组类型的参数" id="string-数组类型的参数" style="color: inherit; text-decoration: none;">
+					<h4>string 数组类型的参数</h4>
+				</a>
+				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> schema = Schema.stringArray(); <span class="hljs-comment">// 做最简单检验，检验是不是一个字符串数组</span>
+<span class="hljs-keyword">const</span> [ isValid, result ] = schema.validate([<span class="hljs-string">&#x27;test&#x27;</span>]);
+<span class="hljs-built_in">console</span>.log(isValid, result); <span class="hljs-comment">// 输出 true [&quot;test&quot;]</span></code></pre>
+				<a href="#number-类型的参数" id="number-类型的参数" style="color: inherit; text-decoration: none;">
+					<h4>number 类型的参数</h4>
+				</a>
+				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> schema = Schema.number(); <span class="hljs-comment">// 做最简单的检验，检验是不是一个数字</span>
+<span class="hljs-comment">/**
+ * 设置一个最小值及最大值
+ * schema.setMix(0).setMax(2);
+ */</span>
+<span class="hljs-comment">/**
+ * 可以设置一个可选数的范围
+ * schema.setRange([0, 1, 2]):
+ */</span>
+<span class="hljs-comment">/**
+ * 也可以设置自定义的验证函数
+ * schema.setValidate((param: unknown): boolean =&gt; {
+ *   return [0, 1, 2].includes(param);
+ * });
+ */</span>
+<span class="hljs-keyword">const</span> [ isValid, result ] = schema.validate(<span class="hljs-number">0</span>);
+<span class="hljs-built_in">console</span>.log(isValid, result); <span class="hljs-comment">// 输出 true 0</span></code></pre>
+				<a href="#number-数组类型的参数" id="number-数组类型的参数" style="color: inherit; text-decoration: none;">
+					<h4>number 数组类型的参数</h4>
+				</a>
+				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> schema = Schema.numberArray(); <span class="hljs-comment">// 做最简单检验，检验是不是一个数字数组</span>
+<span class="hljs-keyword">const</span> [ isValid, result ] = schema.validate([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]);
+<span class="hljs-built_in">console</span>.log(isValid, result); <span class="hljs-comment">// 输出 true [1, 2, 3]</span></code></pre>
+				<a href="#boolean-类型的参数" id="boolean-类型的参数" style="color: inherit; text-decoration: none;">
+					<h3>boolean 类型的参数</h3>
+				</a>
+				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> schema = Schema.boolean();
+<span class="hljs-keyword">const</span> [ isValid, result ] = schema.validate(<span class="hljs-literal">true</span>);
+<span class="hljs-built_in">console</span>.log(isValid, result); <span class="hljs-comment">// 输出 true true</span></code></pre>
+				<a href="#boolean-数组类型的参数" id="boolean-数组类型的参数" style="color: inherit; text-decoration: none;">
+					<h4>boolean 数组类型的参数</h4>
+				</a>
+				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> schema = Schema.booleanArray(); <span class="hljs-comment">// 做最简单检验，检验是不是一个布尔数组</span>
+<span class="hljs-keyword">const</span> [ isValid, result ] = schema.validate([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]);
+<span class="hljs-built_in">console</span>.log(isValid, result); <span class="hljs-comment">// 输出 true [1, 2, 3]</span></code></pre>
+				<a href="#object-类型的参数" id="object-类型的参数" style="color: inherit; text-decoration: none;">
+					<h3>object 类型的参数</h3>
+				</a>
+				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> schema = Schema.object().setSchemas({
+  <span class="hljs-attr">foo</span>: Schema.string(),
+  <span class="hljs-attr">bar</span>: Schema.number(),
+  <span class="hljs-attr">test</span>: Schema.boolean().setDefault(<span class="hljs-literal">true</span>),
+});
+<span class="hljs-keyword">const</span> [ isValid, result ] = schema.validate({ <span class="hljs-attr">foo</span>: <span class="hljs-string">&#x27;foo&#x27;</span>, <span class="hljs-attr">bar</span>: <span class="hljs-number">1</span> });
+<span class="hljs-built_in">console</span>.log(isValid, result); <span class="hljs-comment">// 输出 true {foo: &quot;foo&quot;, bar: 1, test: true}</span></code></pre>
+				<a href="#object-数组类型的参数" id="object-数组类型的参数" style="color: inherit; text-decoration: none;">
+					<h4>object 数组类型的参数</h4>
+				</a>
+				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> schema = Schema.objectArray().setSchemas([
+  Schema.object().setSchemas({
+    <span class="hljs-attr">foo</span>: Schema.string(),
+    <span class="hljs-attr">bar</span>: Schema.number(),
+  }),
+]);
+<span class="hljs-keyword">const</span> [ isValid, result ] = schema.validate([{ <span class="hljs-attr">foo</span>: <span class="hljs-string">&#x27;foo&#x27;</span>, <span class="hljs-attr">bar</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">test</span>: <span class="hljs-literal">true</span> }]);
+<span class="hljs-built_in">console</span>.log(isValid, result); <span class="hljs-comment">// 输出 true {foo: &quot;foo&quot;, bar: 1}</span></code></pre>
 				<a href="#api" id="api" style="color: inherit; text-decoration: none;">
 					<h2>API</h2>
 				</a>
+				<p>更多 API 说明，请查看 <a href="https://poplark.github.io/parameter-schema/">Docs</a></p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -164,22 +242,19 @@
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#stringschematype" class="tsd-kind-icon">String<wbr>Schema<wbr>Type</a>
 					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#version" class="tsd-kind-icon">version</a>
-					</li>
-					<li class=" tsd-kind-function">
+					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#isnil" class="tsd-kind-icon">is<wbr>Nil</a>
 					</li>
-					<li class=" tsd-kind-function">
+					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#isvalidarray" class="tsd-kind-icon">is<wbr>Valid<wbr>Array</a>
 					</li>
-					<li class=" tsd-kind-function">
+					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#isvalidboolean" class="tsd-kind-icon">is<wbr>Valid<wbr>Boolean</a>
 					</li>
-					<li class=" tsd-kind-function">
+					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#isvalidnumber" class="tsd-kind-icon">is<wbr>Valid<wbr>Number</a>
 					</li>
-					<li class=" tsd-kind-function">
+					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#isvalidstring" class="tsd-kind-icon">is<wbr>Valid<wbr>String</a>
 					</li>
 				</ul>

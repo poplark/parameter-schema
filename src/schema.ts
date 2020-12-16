@@ -323,9 +323,10 @@ export class StringArraySchema extends Schema<StringArraySchemaType> {
 
 /**
  * NumberSchema 类，用于检验 number 类型的参数
+ * 默认 [0, 1.79E+308] 为合法值
  */
 export class NumberSchema extends Schema<NumberSchemaType> {
-  private _min = Number.MIN_VALUE;
+  private _min = 0;
   private _max = Number.MAX_VALUE;
   private _range?: number[];
 
@@ -350,12 +351,13 @@ export class NumberSchema extends Schema<NumberSchemaType> {
           if (!this._range.includes(param)) {
             return false;
           }
-        }
-        if (param < this._min) {
-          return false;
-        }
-        if (param > this._max) {
-          return false;
+        } else {
+          if (param < this._min) {
+            return false;
+          }
+          if (param > this._max) {
+            return false;
+          }
         }
         return true;
       };
@@ -402,9 +404,10 @@ export class NumberSchema extends Schema<NumberSchemaType> {
 
 /**
  * NumberArraySchema 类，用于检验 number[] 类型的参数
+ * 默认数组中 [0, 1.79E+308] 为合法值
  */
 export class NumberArraySchema extends Schema<NumberArraySchemaType> {
-  private _min = Number.MIN_VALUE;
+  private _min = 0;
   private _max = Number.MAX_VALUE;
   private _range?: number[];
 
@@ -427,16 +430,19 @@ export class NumberArraySchema extends Schema<NumberArraySchemaType> {
         }
         for (const item of param) {
           if (!isValidNumber(item)) {
-            break;
-          }
-          if (this._range && !this._range.includes(item)) {
             return false;
           }
-          if (item < this._min) {
-            return false;
-          }
-          if (item > this._max) {
-            return false;
+          if (this._range) {
+            if (!this._range.includes(item)) {
+              return false;
+            }
+          } else {
+            if (item < this._min) {
+              return false;
+            }
+            if (item > this._max) {
+              return false;
+            }
           }
         }
         return true;
