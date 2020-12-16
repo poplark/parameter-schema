@@ -323,7 +323,7 @@ export class StringArraySchema extends Schema<StringArraySchemaType> {
 
 /**
  * NumberSchema 类，用于检验 number 类型的参数
- * 默认 [0, 1.79E+308] 为合法值
+ * 默认要求不小于 0 的数为合法值
  */
 export class NumberSchema extends Schema<NumberSchemaType> {
   private _min = 0;
@@ -404,7 +404,7 @@ export class NumberSchema extends Schema<NumberSchemaType> {
 
 /**
  * NumberArraySchema 类，用于检验 number[] 类型的参数
- * 默认数组中 [0, 1.79E+308] 为合法值
+ * 默认要求不小于 0 的数组成的数组为合法值
  */
 export class NumberArraySchema extends Schema<NumberArraySchemaType> {
   private _min = 0;

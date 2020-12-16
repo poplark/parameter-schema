@@ -10,7 +10,8 @@
   "files": [
     "dist",
     "types",
-    "docs"
+    "docs",
+    "README_en.md"
   ],
   "description": "TypeScript-first schema declaration and validation library, inspired by Zod and raml-typesystem.",
   "author": {
