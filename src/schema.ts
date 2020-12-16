@@ -41,17 +41,68 @@ export type ParameterType<T> = T extends StringSchemaType
   : number;
 
 export interface SchemaOption<T> {
+  /**
+   * Schema 类型 / Schema Type
+   */
   type: T;
+  /**
+   * Schema 默认值 / The default value of Schema
+   */
   defaultValue?: ParameterType<T>;
+  /**
+   * 用户自定义的检验方法 / A self-defined validation function
+   */
   validate?: (param: ParameterType<T>) => boolean;
+  /**
+   * 是否为必需的，若为必需，且未设默认值时，传入空值时将通不过检验 / If set true and no default value, when pass undefined or null, the parameter will be invalid
+   */
   required?: boolean;
+  /**
+   * 最小值，NumberSchema 和 NumberArraySchema 可用 / The low limit works on NumberSchema and NumberArraySchema
+   */
   min?: T extends NumberSchemaType | NumberArraySchemaType ? number : undefined;
+  /**
+   * 最大值，NumberSchema 和 NumberArraySchema 可用 / The high limit works on NumberSchema and NumberArraySchema
+   */
   max?: T extends NumberSchemaType | NumberArraySchemaType ? number : undefined;
+  /**
+   * 取值范围，StringSchema、StringArraySchema、NumberSchema 和 NumberArraySchema 可用
+   * A range of validate parameter works on StringSchema, StringArraySchema, NumberSchema and NumberArraySchema
+   */
   range?: T extends StringSchemaType | StringArraySchemaType
     ? string[]
     : T extends NumberSchemaType | NumberArraySchemaType
     ? number[]
     : undefined;
+  /**
+   * Schema 设置，ObjectSchema、ObjectArraySchema 和 ArraySchema 可用
+   * Schema setting works on ObjectSchema, ObjectArraySchema and ArraySchema
+   * @example
+   * ```typescript
+   * // 当创建 ObjectSchema 时，schemas 参数应为对象，且对象中属性对应的值为 Schema
+   * // When create ObjectASchema, the schemas must be an object, and all value of that object must be a Schema
+   * {
+   *   schemas: {
+   *     foo: Schema.string(),
+   *     bar: Schema.number(),
+   *   }
+   * }
+   * // 当创建 ObjectArraySchema 或 ArraySchema 时，schemas 参数应为 Schema 数组
+   * // When create ObjectArraySchema or ArraySchema, the schemas in options should be an array of Schemas
+   * {
+   *   schemas: [
+   *     Schema.string(),
+   *     Schema.number(),
+   *     Schema.object({
+   *       schemas: {
+   *         foo: Schema.string(),
+   *         bar: Schema.number(),
+   *       }
+   *     }),
+   *   ]
+   * }
+   * ```
+   */
   schemas?: T extends ObjectSchemaType
     ? Record<string, Schema<SchemaType>>
     : T extends ObjectArraySchemaType
@@ -65,10 +116,25 @@ export interface SchemaOption<T> {
  * Base Schema Class
  */
 export class Schema<T> {
+  /**
+   * @internal
+   */
   protected hasDefaultValue = false;
+  /**
+   * @internal
+   */
   protected _type: T;
+  /**
+   * @internal
+   */
   protected _default?: ParameterType<T>;
+  /**
+   * @internal
+   */
   protected _validate: (param: ParameterType<T>) => boolean;
+  /**
+   * @internal
+   */
   protected _isRequired = true;
 
   constructor(options: SchemaOption<T>) {
@@ -253,6 +319,9 @@ export class Schema<T> {
  * StringSchema 类，用于检验 string 类型的参数
  */
 export class StringSchema extends Schema<StringSchemaType> {
+  /**
+   * @internal
+   */
   private _range?: string[];
 
   constructor(options: SchemaOption<StringSchemaType>) {
@@ -293,6 +362,9 @@ export class StringSchema extends Schema<StringSchemaType> {
  * StringArraySchema 类，用于检验 string[] 类型的参数
  */
 export class StringArraySchema extends Schema<StringArraySchemaType> {
+  /**
+   * @internal
+   */
   private _range?: string[];
 
   constructor(options: SchemaOption<StringArraySchemaType>) {
@@ -339,8 +411,17 @@ export class StringArraySchema extends Schema<StringArraySchemaType> {
  * 默认要求不小于 0 的数为合法值
  */
 export class NumberSchema extends Schema<NumberSchemaType> {
+  /**
+   * @internal
+   */
   private _min = 0;
+  /**
+   * @internal
+   */
   private _max = Number.MAX_VALUE;
+  /**
+   * @internal
+   */
   private _range?: number[];
 
   constructor(options: SchemaOption<NumberSchemaType>) {
@@ -420,8 +501,17 @@ export class NumberSchema extends Schema<NumberSchemaType> {
  * 默认要求不小于 0 的数组成的数组为合法值
  */
 export class NumberArraySchema extends Schema<NumberArraySchemaType> {
+  /**
+   * @internal
+   */
   private _min = 0;
+  /**
+   * @internal
+   */
   private _max = Number.MAX_VALUE;
+  /**
+   * @internal
+   */
   private _range?: number[];
 
   constructor(options: SchemaOption<NumberArraySchemaType>) {
@@ -543,7 +633,13 @@ export class BooleanArraySchema extends Schema<BooleanArraySchemaType> {
  * ObjectSchema 类，用于检验 Record<string, any> 即 object 类型的参数
  */
 export class ObjectSchema extends Schema<ObjectSchemaType> {
+  /**
+   * @internal
+   */
   private _schemas: Record<string, Schema<SchemaType>>;
+  /**
+   * @internal
+   */
   private useValidate = false;
   constructor(options: SchemaOption<ObjectSchemaType>) {
     super(options);
@@ -648,7 +744,13 @@ export class ObjectSchema extends Schema<ObjectSchemaType> {
  * ObjectArraySchema 类，用于检验 Record<string, any>[] 即 object[] 类型的参数
  */
 export class ObjectArraySchema extends Schema<ObjectArraySchemaType> {
+  /**
+   * @internal
+   */
   private _schemas: ObjectSchema[];
+  /**
+   * @internal
+   */
   private useValidate = false;
   constructor(options: SchemaOption<ObjectArraySchemaType>) {
     super(options);
@@ -733,7 +835,13 @@ export class ObjectArraySchema extends Schema<ObjectArraySchemaType> {
 }
 
 export class ArraySchema extends Schema<ArraySchemaType> {
+  /**
+   * @internal
+   */
   private _schemas: (StringSchema | NumberSchema | BooleanSchema | ObjectSchema)[];
+  /**
+   * @internal
+   */
   private useValidate = false;
   constructor(options: SchemaOption<ArraySchemaType>) {
     super(options);

@@ -51,7 +51,7 @@
 		<div class="container">
 			<ul class="tsd-breadcrumb">
 				<li>
-					<a href="../globals.html">Globals</a>
+					<a href="../index.html">Globals</a>
 				</li>
 				<li>
 					<a href="schemaoption.html">SchemaOption</a>
@@ -105,9 +105,14 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="defaultvalue" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> default<wbr>Value</h3>
-					<div class="tsd-signature tsd-kind-icon">default<wbr>Value<span class="tsd-signature-symbol">:</span> <a href="../globals.html#parametertype" class="tsd-signature-type">ParameterType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<div class="tsd-signature tsd-kind-icon">default<wbr>Value<span class="tsd-signature-symbol">:</span> <a href="../index.html#parametertype" class="tsd-signature-type">ParameterType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Schema 默认值 / The default value of Schema</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="max" class="tsd-anchor"></a>
@@ -115,6 +120,11 @@
 					<div class="tsd-signature tsd-kind-icon">max<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">NumberSchemaType</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">NumberArraySchemaType</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>最大值，NumberSchema 和 NumberArraySchema 可用 / The high limit works on NumberSchema and NumberArraySchema</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="min" class="tsd-anchor"></a>
@@ -122,6 +132,11 @@
 					<div class="tsd-signature tsd-kind-icon">min<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">NumberSchemaType</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">NumberArraySchemaType</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>最小值，NumberSchema 和 NumberArraySchema 可用 / The low limit works on NumberSchema and NumberArraySchema</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="range" class="tsd-anchor"></a>
@@ -129,6 +144,12 @@
 					<div class="tsd-signature tsd-kind-icon">range<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">StringSchemaType</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">StringArraySchemaType</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">NumberSchemaType</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">NumberArraySchemaType</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>取值范围，StringSchema、StringArraySchema、NumberSchema 和 NumberArraySchema 可用
+							A range of validate parameter works on StringSchema, StringArraySchema, NumberSchema and NumberArraySchema</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="required" class="tsd-anchor"></a>
@@ -136,6 +157,11 @@
 					<div class="tsd-signature tsd-kind-icon">required<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
 					<aside class="tsd-sources">
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>是否为必需的，若为必需，且未设默认值时，传入空值时将通不过检验 / If set true and no default value, when pass undefined or null, the parameter will be invalid</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="schemas" class="tsd-anchor"></a>
@@ -143,6 +169,38 @@
 					<div class="tsd-signature tsd-kind-icon">schemas<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">ObjectSchemaType</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Schema</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SchemaType</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">ObjectArraySchemaType</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">ObjectSchema</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">ArraySchemaType</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">StringSchema</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">NumberSchema</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">BooleanSchema</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ObjectSchema</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Schema 设置，ObjectSchema、ObjectArraySchema 和 ArraySchema 可用
+							Schema setting works on ObjectSchema, ObjectArraySchema and ArraySchema</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>example</dt>
+							<dd><pre><code class="language-typescript"><span class="hljs-comment">// 当创建 ObjectSchema 时，schemas 参数应为对象，且对象中属性对应的值为 Schema</span>
+<span class="hljs-comment">// When create ObjectASchema, the schemas must be an object, and all value of that object must be a Schema</span>
+{
+  <span class="hljs-attr">schemas</span>: {
+    <span class="hljs-attr">foo</span>: Schema.string(),
+    <span class="hljs-attr">bar</span>: Schema.number(),
+  }
+}
+<span class="hljs-comment">// 当创建 ObjectArraySchema 或 ArraySchema 时，schemas 参数应为 Schema 数组</span>
+<span class="hljs-comment">// When create ObjectArraySchema or ArraySchema, the schemas in options should be an array of Schemas</span>
+{
+  <span class="hljs-attr">schemas</span>: [
+    Schema.string(),
+    Schema.number(),
+    Schema.object({
+      <span class="hljs-attr">schemas</span>: {
+        <span class="hljs-attr">foo</span>: Schema.string(),
+        <span class="hljs-attr">bar</span>: Schema.number(),
+      }
+    }),
+  ]
+}</code></pre>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="type" class="tsd-anchor"></a>
@@ -150,13 +208,23 @@
 					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">T</span></div>
 					<aside class="tsd-sources">
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Schema 类型 / Schema Type</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="validate" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> validate</h3>
-					<div class="tsd-signature tsd-kind-icon">validate<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>param<span class="tsd-signature-symbol">: </span><a href="../globals.html#parametertype" class="tsd-signature-type">ParameterType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span></div>
+					<div class="tsd-signature tsd-kind-icon">validate<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>param<span class="tsd-signature-symbol">: </span><a href="../index.html#parametertype" class="tsd-signature-type">ParameterType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span></div>
 					<aside class="tsd-sources">
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>用户自定义的检验方法 / A self-defined validation function</p>
+						</div>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -164,7 +232,7 @@
 			<nav class="tsd-navigation primary">
 				<ul>
 					<li class="globals  ">
-						<a href="../globals.html"><em>Globals</em></a>
+						<a href="../index.html"><em>Globals</em></a>
 					</li>
 				</ul>
 			</nav>
@@ -234,52 +302,37 @@
 				</ul>
 				<ul class="after-current">
 					<li class=" tsd-kind-type-alias">
-						<a href="../globals.html#arrayschematype" class="tsd-kind-icon">Array<wbr>Schema<wbr>Type</a>
+						<a href="../index.html#arrayschematype" class="tsd-kind-icon">Array<wbr>Schema<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="../globals.html#booleanarrayschematype" class="tsd-kind-icon">Boolean<wbr>Array<wbr>Schema<wbr>Type</a>
+						<a href="../index.html#booleanarrayschematype" class="tsd-kind-icon">Boolean<wbr>Array<wbr>Schema<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="../globals.html#booleanschematype" class="tsd-kind-icon">Boolean<wbr>Schema<wbr>Type</a>
+						<a href="../index.html#booleanschematype" class="tsd-kind-icon">Boolean<wbr>Schema<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="../globals.html#numberarrayschematype" class="tsd-kind-icon">Number<wbr>Array<wbr>Schema<wbr>Type</a>
+						<a href="../index.html#numberarrayschematype" class="tsd-kind-icon">Number<wbr>Array<wbr>Schema<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="../globals.html#numberschematype" class="tsd-kind-icon">Number<wbr>Schema<wbr>Type</a>
+						<a href="../index.html#numberschematype" class="tsd-kind-icon">Number<wbr>Schema<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="../globals.html#objectarrayschematype" class="tsd-kind-icon">Object<wbr>Array<wbr>Schema<wbr>Type</a>
+						<a href="../index.html#objectarrayschematype" class="tsd-kind-icon">Object<wbr>Array<wbr>Schema<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="../globals.html#objectschematype" class="tsd-kind-icon">Object<wbr>Schema<wbr>Type</a>
+						<a href="../index.html#objectschematype" class="tsd-kind-icon">Object<wbr>Schema<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-						<a href="../globals.html#parametertype" class="tsd-kind-icon">Parameter<wbr>Type</a>
+						<a href="../index.html#parametertype" class="tsd-kind-icon">Parameter<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="../globals.html#schematype" class="tsd-kind-icon">Schema<wbr>Type</a>
+						<a href="../index.html#schematype" class="tsd-kind-icon">Schema<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="../globals.html#stringarrayschematype" class="tsd-kind-icon">String<wbr>Array<wbr>Schema<wbr>Type</a>
+						<a href="../index.html#stringarrayschematype" class="tsd-kind-icon">String<wbr>Array<wbr>Schema<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="../globals.html#stringschematype" class="tsd-kind-icon">String<wbr>Schema<wbr>Type</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="../globals.html#isnil" class="tsd-kind-icon">is<wbr>Nil</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="../globals.html#isvalidarray" class="tsd-kind-icon">is<wbr>Valid<wbr>Array</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="../globals.html#isvalidboolean" class="tsd-kind-icon">is<wbr>Valid<wbr>Boolean</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="../globals.html#isvalidnumber" class="tsd-kind-icon">is<wbr>Valid<wbr>Number</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="../globals.html#isvalidstring" class="tsd-kind-icon">is<wbr>Valid<wbr>String</a>
+						<a href="../index.html#stringschematype" class="tsd-kind-icon">String<wbr>Schema<wbr>Type</a>
 					</li>
 				</ul>
 			</nav>

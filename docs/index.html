@@ -51,7 +51,7 @@
 		<div class="container">
 			<ul class="tsd-breadcrumb">
 				<li>
-					<a href="globals.html">Globals</a>
+					<a href="index.html">Globals</a>
 				</li>
 			</ul>
 			<h1>parameter-schema</h1>
@@ -61,122 +61,142 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<div class="tsd-panel tsd-typography">
-				<a href="#parameter-schema" id="parameter-schema" style="color: inherit; text-decoration: none;">
-					<h1>parameter-schema</h1>
-				</a>
-				<p><a href="README_en.md">English</a> / 中文</p>
-				<p>因为调用 API 时，由于传的参数嵌套过于复杂，并受 Zod and raml-typesystem 启发，故创建了本库。</p>
-				<p>本库用于检验函数参数的合法性，支持对 string, number, boolean, object 以及他们相应的数组参数进行检验。</p>
-				<a href="#使用方法" id="使用方法" style="color: inherit; text-decoration: none;">
-					<h2>使用方法</h2>
-				</a>
-				<a href="#导入" id="导入" style="color: inherit; text-decoration: none;">
-					<h3>导入</h3>
-				</a>
-				<p>ESModule 方式</p>
-				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { Schema } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;parameter-schema&#x27;</span>;</code></pre>
-				<p>CommonJS 方式</p>
-				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> { Schema } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;parameter-schema&#x27;</span>);</code></pre>
-				<a href="#调用示例" id="调用示例" style="color: inherit; text-decoration: none;">
-					<h3>调用示例</h3>
-				</a>
-				<a href="#string-类型的参数" id="string-类型的参数" style="color: inherit; text-decoration: none;">
-					<h4>string 类型的参数</h4>
-				</a>
-				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> schema = Schema.string(); <span class="hljs-comment">// 做最简单检验，检验是不是一个字符串</span>
-<span class="hljs-comment">/**
- * 可以设置一个默认值，检验 null 或 undefined 值时，将使用默认值作为输出结果
- * schema.setDefault(&#x27;test&#x27;);
- */</span>
-<span class="hljs-comment">/**
- * 可以设置一个字符串的可选范围
- * schema.setRange([&#x27;test&#x27;, &#x27;foo&#x27;, &#x27;bar&#x27;]):
- */</span>
-<span class="hljs-comment">/**
- * 也可以设置自定义的检验函数
- * schema.setValidate((param: unknown): boolean =&gt; {
- *   return /(test|foo|bar)/i.test();
- * });
- */</span>
-<span class="hljs-keyword">const</span> [ isValid, result ] = schema.validate(<span class="hljs-string">&#x27;test&#x27;</span>);
-<span class="hljs-built_in">console</span>.log(isValid, result); <span class="hljs-comment">// 输出 true &quot;test&quot;</span></code></pre>
-				<a href="#string-数组类型的参数" id="string-数组类型的参数" style="color: inherit; text-decoration: none;">
-					<h4>string 数组类型的参数</h4>
-				</a>
-				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> schema = Schema.stringArray(); <span class="hljs-comment">// 做最简单检验，检验是不是一个字符串数组</span>
-<span class="hljs-keyword">const</span> [ isValid, result ] = schema.validate([<span class="hljs-string">&#x27;test&#x27;</span>]);
-<span class="hljs-built_in">console</span>.log(isValid, result); <span class="hljs-comment">// 输出 true [&quot;test&quot;]</span></code></pre>
-				<a href="#number-类型的参数" id="number-类型的参数" style="color: inherit; text-decoration: none;">
-					<h4>number 类型的参数</h4>
-				</a>
-				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> schema = Schema.number(); <span class="hljs-comment">// 做最简单的检验，检验是不是一个数字，并不小于默认的最小值 0</span>
-<span class="hljs-comment">/**
- * 设置一个最小值及最大值
- * schema.setMix(0).setMax(2);
- */</span>
-<span class="hljs-comment">/**
- * 可以设置一个可选数的范围
- * schema.setRange([0, 1, 2]):
- */</span>
-<span class="hljs-comment">/**
- * 也可以设置自定义的验证函数
- * schema.setValidate((param: unknown): boolean =&gt; {
- *   return [0, 1, 2].includes(param);
- * });
- */</span>
-<span class="hljs-keyword">const</span> [ isValid, result ] = schema.validate(<span class="hljs-number">0</span>);
-<span class="hljs-built_in">console</span>.log(isValid, result); <span class="hljs-comment">// 输出 true 0</span></code></pre>
-				<a href="#number-数组类型的参数" id="number-数组类型的参数" style="color: inherit; text-decoration: none;">
-					<h4>number 数组类型的参数</h4>
-				</a>
-				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> schema = Schema.numberArray(); <span class="hljs-comment">// 做最简单检验，检验是不是一个数字数组，并且数组中的每一项都不小于默认的最小值 0</span>
-<span class="hljs-keyword">const</span> [ isValid, result ] = schema.validate([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]);
-<span class="hljs-built_in">console</span>.log(isValid, result); <span class="hljs-comment">// 输出 true [1, 2, 3]</span></code></pre>
-				<a href="#boolean-类型的参数" id="boolean-类型的参数" style="color: inherit; text-decoration: none;">
-					<h3>boolean 类型的参数</h3>
-				</a>
-				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> schema = Schema.boolean(); <span class="hljs-comment">// 做最简单检验，检验是不是一个布尔值</span>
-<span class="hljs-keyword">const</span> [ isValid, result ] = schema.validate(<span class="hljs-literal">true</span>);
-<span class="hljs-built_in">console</span>.log(isValid, result); <span class="hljs-comment">// 输出 true true</span></code></pre>
-				<a href="#boolean-数组类型的参数" id="boolean-数组类型的参数" style="color: inherit; text-decoration: none;">
-					<h4>boolean 数组类型的参数</h4>
-				</a>
-				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> schema = Schema.booleanArray(); <span class="hljs-comment">// 做最简单检验，检验是不是一个布尔数组</span>
-<span class="hljs-keyword">const</span> [ isValid, result ] = schema.validate([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]);
-<span class="hljs-built_in">console</span>.log(isValid, result); <span class="hljs-comment">// 输出 true [1, 2, 3]</span></code></pre>
-				<a href="#object-类型的参数" id="object-类型的参数" style="color: inherit; text-decoration: none;">
-					<h3>object 类型的参数</h3>
-				</a>
-				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> schema = Schema.object().setSchemas({
-  <span class="hljs-attr">foo</span>: Schema.string(),
-  <span class="hljs-attr">bar</span>: Schema.number(),
-  <span class="hljs-attr">test</span>: Schema.boolean().setDefault(<span class="hljs-literal">true</span>),
-}); <span class="hljs-comment">// 验证传入的参数是不是 object，并且每个属性都能通过对应 Schema 的检验</span>
-<span class="hljs-keyword">const</span> [ isValid, result ] = schema.validate({ <span class="hljs-attr">foo</span>: <span class="hljs-string">&#x27;foo&#x27;</span>, <span class="hljs-attr">bar</span>: <span class="hljs-number">1</span> });
-<span class="hljs-built_in">console</span>.log(isValid, result); <span class="hljs-comment">// 输出 true {foo: &quot;foo&quot;, bar: 1, test: true}</span></code></pre>
-				<a href="#object-数组类型的参数" id="object-数组类型的参数" style="color: inherit; text-decoration: none;">
-					<h4>object 数组类型的参数</h4>
-				</a>
-				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> schema = Schema.objectArray().setSchemas([
-  Schema.object().setSchemas({
-    <span class="hljs-attr">foo</span>: Schema.string(),
-    <span class="hljs-attr">bar</span>: Schema.number(),
-  }),
-]); <span class="hljs-comment">// 验证传入的参数是不是数组，并且数组中每一项都为 object，且都能通过设置的 Schema 数组中某一个 Schema 的检验</span>
-<span class="hljs-keyword">const</span> [ isValid, result ] = schema.validate([{ <span class="hljs-attr">foo</span>: <span class="hljs-string">&#x27;foo&#x27;</span>, <span class="hljs-attr">bar</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">test</span>: <span class="hljs-literal">true</span> }]);
-<span class="hljs-built_in">console</span>.log(isValid, result); <span class="hljs-comment">// 输出 true {foo: &quot;foo&quot;, bar: 1}</span></code></pre>
-				<a href="#api" id="api" style="color: inherit; text-decoration: none;">
-					<h2>API</h2>
-				</a>
-				<p>更多 API 说明，请查看 <a href="https://poplark.github.io/parameter-schema/">Docs</a></p>
-			</div>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Classes</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-class"><a href="classes/arrayschema.html" class="tsd-kind-icon">Array<wbr>Schema</a></li>
+								<li class="tsd-kind-class"><a href="classes/booleanarrayschema.html" class="tsd-kind-icon">Boolean<wbr>Array<wbr>Schema</a></li>
+								<li class="tsd-kind-class"><a href="classes/booleanschema.html" class="tsd-kind-icon">Boolean<wbr>Schema</a></li>
+								<li class="tsd-kind-class"><a href="classes/numberarrayschema.html" class="tsd-kind-icon">Number<wbr>Array<wbr>Schema</a></li>
+								<li class="tsd-kind-class"><a href="classes/numberschema.html" class="tsd-kind-icon">Number<wbr>Schema</a></li>
+								<li class="tsd-kind-class"><a href="classes/objectarrayschema.html" class="tsd-kind-icon">Object<wbr>Array<wbr>Schema</a></li>
+								<li class="tsd-kind-class"><a href="classes/objectschema.html" class="tsd-kind-icon">Object<wbr>Schema</a></li>
+								<li class="tsd-kind-class tsd-has-type-parameter"><a href="classes/schema.html" class="tsd-kind-icon">Schema</a></li>
+								<li class="tsd-kind-class"><a href="classes/stringarrayschema.html" class="tsd-kind-icon">String<wbr>Array<wbr>Schema</a></li>
+								<li class="tsd-kind-class"><a href="classes/stringschema.html" class="tsd-kind-icon">String<wbr>Schema</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Interfaces</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-interface tsd-has-type-parameter"><a href="interfaces/schemaoption.html" class="tsd-kind-icon">Schema<wbr>Option</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Type aliases</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-type-alias"><a href="index.html#arrayschematype" class="tsd-kind-icon">Array<wbr>Schema<wbr>Type</a></li>
+								<li class="tsd-kind-type-alias"><a href="index.html#booleanarrayschematype" class="tsd-kind-icon">Boolean<wbr>Array<wbr>Schema<wbr>Type</a></li>
+								<li class="tsd-kind-type-alias"><a href="index.html#booleanschematype" class="tsd-kind-icon">Boolean<wbr>Schema<wbr>Type</a></li>
+								<li class="tsd-kind-type-alias"><a href="index.html#numberarrayschematype" class="tsd-kind-icon">Number<wbr>Array<wbr>Schema<wbr>Type</a></li>
+								<li class="tsd-kind-type-alias"><a href="index.html#numberschematype" class="tsd-kind-icon">Number<wbr>Schema<wbr>Type</a></li>
+								<li class="tsd-kind-type-alias"><a href="index.html#objectarrayschematype" class="tsd-kind-icon">Object<wbr>Array<wbr>Schema<wbr>Type</a></li>
+								<li class="tsd-kind-type-alias"><a href="index.html#objectschematype" class="tsd-kind-icon">Object<wbr>Schema<wbr>Type</a></li>
+								<li class="tsd-kind-type-alias tsd-has-type-parameter"><a href="index.html#parametertype" class="tsd-kind-icon">Parameter<wbr>Type</a></li>
+								<li class="tsd-kind-type-alias"><a href="index.html#schematype" class="tsd-kind-icon">Schema<wbr>Type</a></li>
+								<li class="tsd-kind-type-alias"><a href="index.html#stringarrayschematype" class="tsd-kind-icon">String<wbr>Array<wbr>Schema<wbr>Type</a></li>
+								<li class="tsd-kind-type-alias"><a href="index.html#stringschematype" class="tsd-kind-icon">String<wbr>Schema<wbr>Type</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Type aliases</h2>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias">
+					<a name="arrayschematype" class="tsd-anchor"></a>
+					<h3>Array<wbr>Schema<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">Array<wbr>Schema<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"array"</span></div>
+					<aside class="tsd-sources">
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias">
+					<a name="booleanarrayschematype" class="tsd-anchor"></a>
+					<h3>Boolean<wbr>Array<wbr>Schema<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">Boolean<wbr>Array<wbr>Schema<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"boolean[]"</span></div>
+					<aside class="tsd-sources">
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias">
+					<a name="booleanschematype" class="tsd-anchor"></a>
+					<h3>Boolean<wbr>Schema<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">Boolean<wbr>Schema<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"boolean"</span></div>
+					<aside class="tsd-sources">
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias">
+					<a name="numberarrayschematype" class="tsd-anchor"></a>
+					<h3>Number<wbr>Array<wbr>Schema<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">Number<wbr>Array<wbr>Schema<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"number[]"</span></div>
+					<aside class="tsd-sources">
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias">
+					<a name="numberschematype" class="tsd-anchor"></a>
+					<h3>Number<wbr>Schema<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">Number<wbr>Schema<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"number"</span></div>
+					<aside class="tsd-sources">
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias">
+					<a name="objectarrayschematype" class="tsd-anchor"></a>
+					<h3>Object<wbr>Array<wbr>Schema<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">Object<wbr>Array<wbr>Schema<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"object[]"</span></div>
+					<aside class="tsd-sources">
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias">
+					<a name="objectschematype" class="tsd-anchor"></a>
+					<h3>Object<wbr>Schema<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">Object<wbr>Schema<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"object"</span></div>
+					<aside class="tsd-sources">
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-has-type-parameter">
+					<a name="parametertype" class="tsd-anchor"></a>
+					<h3>Parameter<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">Parameter<wbr>Type&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">StringSchemaType</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">StringArraySchemaType</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">NumberSchemaType</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">NumberArraySchemaType</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">BooleanSchemaType</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">BooleanArraySchemaType</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">ObjectSchemaType</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">ObjectArraySchemaType</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">ArraySchemaType</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+					</aside>
+					<h4 class="tsd-type-parameters-title">Type parameters</h4>
+					<ul class="tsd-type-parameters">
+						<li>
+							<h4>T</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias">
+					<a name="schematype" class="tsd-anchor"></a>
+					<h3>Schema<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">Schema<wbr>Type<span class="tsd-signature-symbol">:</span> <a href="index.html#stringschematype" class="tsd-signature-type">StringSchemaType</a><span class="tsd-signature-symbol"> | </span><a href="index.html#stringarrayschematype" class="tsd-signature-type">StringArraySchemaType</a><span class="tsd-signature-symbol"> | </span><a href="index.html#numberschematype" class="tsd-signature-type">NumberSchemaType</a><span class="tsd-signature-symbol"> | </span><a href="index.html#numberarrayschematype" class="tsd-signature-type">NumberArraySchemaType</a><span class="tsd-signature-symbol"> | </span><a href="index.html#booleanschematype" class="tsd-signature-type">BooleanSchemaType</a><span class="tsd-signature-symbol"> | </span><a href="index.html#booleanarrayschematype" class="tsd-signature-type">BooleanArraySchemaType</a><span class="tsd-signature-symbol"> | </span><a href="index.html#objectschematype" class="tsd-signature-type">ObjectSchemaType</a><span class="tsd-signature-symbol"> | </span><a href="index.html#objectarrayschematype" class="tsd-signature-type">ObjectArraySchemaType</a><span class="tsd-signature-symbol"> | </span><a href="index.html#arrayschematype" class="tsd-signature-type">ArraySchemaType</a></div>
+					<aside class="tsd-sources">
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias">
+					<a name="stringarrayschematype" class="tsd-anchor"></a>
+					<h3>String<wbr>Array<wbr>Schema<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">String<wbr>Array<wbr>Schema<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"string[]"</span></div>
+					<aside class="tsd-sources">
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias">
+					<a name="stringschematype" class="tsd-anchor"></a>
+					<h3>String<wbr>Schema<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">String<wbr>Schema<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"string"</span></div>
+					<aside class="tsd-sources">
+					</aside>
+				</section>
+			</section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
-					<li class="globals  ">
-						<a href="globals.html"><em>Globals</em></a>
+					<li class="globals current ">
+						<a href="index.html"><em>Globals</em></a>
 					</li>
 				</ul>
 			</nav>
@@ -216,52 +236,37 @@
 						<a href="interfaces/schemaoption.html" class="tsd-kind-icon">Schema<wbr>Option</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#arrayschematype" class="tsd-kind-icon">Array<wbr>Schema<wbr>Type</a>
+						<a href="index.html#arrayschematype" class="tsd-kind-icon">Array<wbr>Schema<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#booleanarrayschematype" class="tsd-kind-icon">Boolean<wbr>Array<wbr>Schema<wbr>Type</a>
+						<a href="index.html#booleanarrayschematype" class="tsd-kind-icon">Boolean<wbr>Array<wbr>Schema<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#booleanschematype" class="tsd-kind-icon">Boolean<wbr>Schema<wbr>Type</a>
+						<a href="index.html#booleanschematype" class="tsd-kind-icon">Boolean<wbr>Schema<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#numberarrayschematype" class="tsd-kind-icon">Number<wbr>Array<wbr>Schema<wbr>Type</a>
+						<a href="index.html#numberarrayschematype" class="tsd-kind-icon">Number<wbr>Array<wbr>Schema<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#numberschematype" class="tsd-kind-icon">Number<wbr>Schema<wbr>Type</a>
+						<a href="index.html#numberschematype" class="tsd-kind-icon">Number<wbr>Schema<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#objectarrayschematype" class="tsd-kind-icon">Object<wbr>Array<wbr>Schema<wbr>Type</a>
+						<a href="index.html#objectarrayschematype" class="tsd-kind-icon">Object<wbr>Array<wbr>Schema<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#objectschematype" class="tsd-kind-icon">Object<wbr>Schema<wbr>Type</a>
+						<a href="index.html#objectschematype" class="tsd-kind-icon">Object<wbr>Schema<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-						<a href="globals.html#parametertype" class="tsd-kind-icon">Parameter<wbr>Type</a>
+						<a href="index.html#parametertype" class="tsd-kind-icon">Parameter<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#schematype" class="tsd-kind-icon">Schema<wbr>Type</a>
+						<a href="index.html#schematype" class="tsd-kind-icon">Schema<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#stringarrayschematype" class="tsd-kind-icon">String<wbr>Array<wbr>Schema<wbr>Type</a>
+						<a href="index.html#stringarrayschematype" class="tsd-kind-icon">String<wbr>Array<wbr>Schema<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#stringschematype" class="tsd-kind-icon">String<wbr>Schema<wbr>Type</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="globals.html#isnil" class="tsd-kind-icon">is<wbr>Nil</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="globals.html#isvalidarray" class="tsd-kind-icon">is<wbr>Valid<wbr>Array</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="globals.html#isvalidboolean" class="tsd-kind-icon">is<wbr>Valid<wbr>Boolean</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="globals.html#isvalidnumber" class="tsd-kind-icon">is<wbr>Valid<wbr>Number</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="globals.html#isvalidstring" class="tsd-kind-icon">is<wbr>Valid<wbr>String</a>
+						<a href="index.html#stringschematype" class="tsd-kind-icon">String<wbr>Schema<wbr>Type</a>
 					</li>
 				</ul>
 			</nav>
