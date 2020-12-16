@@ -695,6 +695,9 @@ export class ObjectArraySchema extends Schema<ObjectArraySchemaType> {
         return [true, undefined];
       }
     }
+    if (!isValidArray(param)) {
+      return [false, undefined];
+    }
     param = param || [];
     let result: Record<string, any>[] = [];
     let isValid = false;
@@ -778,6 +781,9 @@ export class ArraySchema extends Schema<ArraySchemaType> {
       if (!this._isRequired) {
         return [true, undefined];
       }
+    }
+    if (!isValidArray(param)) {
+      return [false, undefined];
     }
     param = param || [];
     let result: ParameterType<ArraySchemaType> = [];
