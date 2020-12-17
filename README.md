@@ -96,10 +96,10 @@ const [ isValid, result ] = schema.validate([1, 2, 3]);
 console.log(isValid, result); // 输出 true [1, 2, 3]
 ```
 
-### object 类型的参数
+#### object 类型的参数
 
 ```typescript
-const schema = Schema.object().setSchemas({
+const schema = Schema.object().setFieldSchemas({
   foo: Schema.string(),
   bar: Schema.number(),
   test: Schema.boolean().setDefault(true),
@@ -108,18 +108,45 @@ const [ isValid, result ] = schema.validate({ foo: 'foo', bar: 1 });
 console.log(isValid, result); // 输出 true {foo: "foo", bar: 1, test: true}
 ```
 
+```typescript
+// 注，未设置对应 Schema 的属性在输出中将被忽略，如：
+const [ isValid, result ] = schema.validate({foo: 'foo', bar: 1, baz: false});
+console.log(isValid, result); // 输出 true {foo: "foo", bar: 1, test: true}
+```
+
 #### object 数组类型的参数
 
 ```typescript
-const schema = Schema.objectArray().setSchemas([
-  Schema.object().setSchemas({
+const schema = Schema.objectArray().setSchema(
+  Schema.object().setFieldSchema({
     foo: Schema.string(),
     bar: Schema.number(),
   }),
-]); // 验证传入的参数是不是数组，并且数组中每一项都为 object，且都能通过设置的 Schema 数组中某一个 Schema 的检验
-const [ isValid, result ] = schema.validate([{ foo: 'foo', bar: 1, test: true }]);
+); // 验证传入的参数是不是数组，并且数组中每一项都为 object，且都能通过设置的 Schema 的检验
+const [ isValid, result ] = schema.validate([{foo: 'foo', bar: 1, test: true}]);
 console.log(isValid, result); // 输出 true {foo: "foo", bar: 1}
 ```
+
+#### array （纯数组）类型的参数
+
+```typescript
+const schema = Schema.array().setSchemas([
+  Schema.number().setRange([1, 2, 3]),
+  Schema.object().setFieldSchemas({
+    foo: Schema.string(),
+    bar: Schema.number(),
+  }),
+]); // 验证传入的参数是不是数组，并且数组中每一项都能通过设置的 Schema 数组中某一个 Schema 的检验
+const [ isValid, result ] = schema.validate([{foo: 'foo', bar: 1, test: true}]);
+console.log(isValid, result); // 输出 true [{foo: "foo", bar: 1}]
+```
+
+```typescript
+// 还如
+const [ isValid, result ] = schema.validate([1, {foo: 'foo', bar: 1, test: true}, 2]);
+console.log(isValid, result); // 输出 true [1, {foo: "foo", bar: 1}, 2]
+```
+
 
 ## API
 
