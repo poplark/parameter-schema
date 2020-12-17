@@ -100,7 +100,7 @@ console.log(isValid, result); // output: true [1, 2, 3]
 #### The object parameter
 
 ```typescript
-const schema = Schema.object().setSchemas({
+const schema = Schema.object().setFieldSchemas({
   foo: Schema.string(),
   bar: Schema.number(),
   test: Schema.boolean().setDefault(true),
@@ -109,17 +109,43 @@ const [ isValid, result ] = schema.validate({ foo: 'foo', bar: 1 });
 console.log(isValid, result); // output: true {foo: "foo", bar: 1, test: true}
 ```
 
+```typescript
+// Field without schema setting will be ignore in the output, such as:
+const [ isValid, result ] = schema.validate({ foo: 'foo', bar: 1, baz: false });
+console.log(isValid, result); // output: true {foo: "foo", bar: 1, test: true}
+```
+
 #### The object array parameter
 
 ```typescript
-const schema = Schema.objectArray().setSchemas([
+const schema = Schema.objectArray().setSchema(
   Schema.object().setSchemas({
     foo: Schema.string(),
     bar: Schema.number(),
   }),
-]); // Validate the parameter is an array, and all items of that array are object, and all objects of that array can be validated by the one of Schema in Schema settings
+); // Validate the parameter is an array, and all items of that array are object, and all objects of that array can be validated by the ObjectSchema in settings
 const [ isValid, result ] = schema.validate([{ foo: 'foo', bar: 1, test: true }]);
 console.log(isValid, result); // output: true {foo: "foo", bar: 1}
+```
+
+#### The array parameter
+
+```typescript
+const schema = Schema.array().setSchemas([
+  Schema.number().setRange([1, 2, 3]),
+  Schema.object().setFieldSchemas({
+    foo: Schema.string(),
+    bar: Schema.number(),
+  }),
+]); // Validate the parameter is an array, and all items of that array can be validated by one of Schemas in settings
+const [ isValid, result ] = schema.validate([{ foo: 'foo', bar: 1, test: true }]);
+console.log(isValid, result); // output: true {foo: "foo", bar: 1}
+```
+
+```typescript
+// More
+const [ isValid, result ] = schema.validate([1, {foo: 'foo', bar: 1, test: true}, 2]);
+console.log(isValid, result); // output: true [1, {foo: "foo", bar: 1}, 2]
 ```
 
 ## API
