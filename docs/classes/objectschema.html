@@ -99,8 +99,8 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="objectschema.html#merge" class="tsd-kind-icon">merge</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="objectschema.html#setdefault" class="tsd-kind-icon">set<wbr>Default</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="objectschema.html#setfieldschemas" class="tsd-kind-icon">set<wbr>Field<wbr>Schemas</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="objectschema.html#setrequired" class="tsd-kind-icon">set<wbr>Required</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="objectschema.html#setschemas" class="tsd-kind-icon">set<wbr>Schemas</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="objectschema.html#setvalidate" class="tsd-kind-icon">set<wbr>Validate</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="objectschema.html#validate" class="tsd-kind-icon">validate</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="objectschema.html#array" class="tsd-kind-icon">array</a></li>
@@ -210,6 +210,45 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setfieldschemas" class="tsd-anchor"></a>
+					<h3>set<wbr>Field<wbr>Schemas</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Field<wbr>Schemas<span class="tsd-signature-symbol">(</span>fieldSchemas<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="schema.html" class="tsd-signature-type">Schema</a><span class="tsd-signature-symbol">&lt;</span><a href="../index.html#schematype" class="tsd-signature-type">SchemaType</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="objectschema.html" class="tsd-signature-type">ObjectSchema</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>对每个 field 配置一个 Schema</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="language-typescript">schema.setFieldSchemas({
+  <span class="hljs-attr">a</span>: Schema.number(),
+  <span class="hljs-attr">b</span>: Schema.string().setDefault(<span class="hljs-string">&#x27;&#x27;</span>),
+  <span class="hljs-attr">c</span>: Schema.boolean(),
+  <span class="hljs-attr">d</span>: Schema.object().setSchemas({
+    <span class="hljs-attr">da</span>: Schema.numberArray().setDefault([<span class="hljs-number">1</span>]),
+    <span class="hljs-attr">db</span>: Schema.stringArray(),
+    <span class="hljs-attr">dc</span>: Schema.booleanArray(),
+  }),
+});</code></pre>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>fieldSchemas: <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="schema.html" class="tsd-signature-type">Schema</a><span class="tsd-signature-symbol">&lt;</span><a href="../index.html#schematype" class="tsd-signature-type">SchemaType</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="objectschema.html" class="tsd-signature-type">ObjectSchema</a></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="setrequired" class="tsd-anchor"></a>
 					<h3>set<wbr>Required</h3>
@@ -236,48 +275,6 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="schema.html" class="tsd-signature-type">Schema</a><span class="tsd-signature-symbol">&lt;</span><a href="../index.html#objectschematype" class="tsd-signature-type">ObjectSchemaType</a><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="setschemas" class="tsd-anchor"></a>
-					<h3>set<wbr>Schemas</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">set<wbr>Schemas<span class="tsd-signature-symbol">(</span>schemas<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="schema.html" class="tsd-signature-type">Schema</a><span class="tsd-signature-symbol">&lt;</span><a href="../index.html#schematype" class="tsd-signature-type">SchemaType</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="objectschema.html" class="tsd-signature-type">ObjectSchema</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>对每个 filed 配置一个 Schema</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>example</dt>
-									<dd><pre><code class="language-typescript">schema.setSchemas({
-  <span class="hljs-attr">a</span>: Schema.number(),
-  <span class="hljs-attr">b</span>: Schema.string().setDefault(<span class="hljs-string">&#x27;&#x27;</span>),
-  <span class="hljs-attr">c</span>: Schema.boolean(),
-  <span class="hljs-attr">d</span>: Schema.object().setSchemas({
-    <span class="hljs-attr">da</span>: Schema.numberArray().setDefault([<span class="hljs-number">1</span>]),
-    <span class="hljs-attr">db</span>: Schema.stringArray(),
-    <span class="hljs-attr">dc</span>: Schema.booleanArray(),
-  }),
-});</code></pre>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>schemas: <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="schema.html" class="tsd-signature-type">Schema</a><span class="tsd-signature-symbol">&lt;</span><a href="../index.html#schematype" class="tsd-signature-type">SchemaType</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>filed 对的 Schema 的集合</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="objectschema.html" class="tsd-signature-type">ObjectSchema</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -638,11 +635,11 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="objectschema.html#setdefault" class="tsd-kind-icon">set<wbr>Default</a>
 							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="objectschema.html#setfieldschemas" class="tsd-kind-icon">set<wbr>Field<wbr>Schemas</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="objectschema.html#setrequired" class="tsd-kind-icon">set<wbr>Required</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="objectschema.html#setschemas" class="tsd-kind-icon">set<wbr>Schemas</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="objectschema.html#setvalidate" class="tsd-kind-icon">set<wbr>Validate</a>

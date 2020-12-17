@@ -75,20 +75,42 @@ export interface SchemaOption<T> {
     ? number[]
     : undefined;
   /**
-   * Schema 设置，ObjectSchema、ObjectArraySchema 和 ArraySchema 可用
-   * Schema setting works on ObjectSchema, ObjectArraySchema and ArraySchema
+   * 对象字段的 Schemas 设置，ObjectSchema 可用
+   * Schemas of object fields setting works on ObjectSchema
    * @example
    * ```typescript
-   * // 当创建 ObjectSchema 时，schemas 参数应为对象，且对象中属性对应的值为 Schema
-   * // When create ObjectASchema, the schemas must be an object, and all value of that object must be a Schema
+   * // fieldSchemas 参数应为对象，且对象中属性对应的值为 Schema
+   * // The fieldSchemas must be an object, and all value of that object must be a Schema
    * {
-   *   schemas: {
+   *   fieldSchemas: {
    *     foo: Schema.string(),
    *     bar: Schema.number(),
    *   }
    * }
-   * // 当创建 ObjectArraySchema 或 ArraySchema 时，schemas 参数应为 Schema 数组
-   * // When create ObjectArraySchema or ArraySchema, the schemas in options should be an array of Schemas
+   * ```
+   */
+  fieldSchemas?: T extends ObjectSchemaType ? Record<string, Schema<SchemaType>> : undefined;
+  /**
+   * Schema 设置，ObjectArraySchema 可用
+   * Schema setting works on ObjectArraySchema
+   * @example
+   * ```typescript
+   * {
+   *   schemas: Schema.object({
+   *     schemas: {
+   *       foo: Schema.string(),
+   *       bar: Schema.number(),
+   *     }
+   *   })
+   * }
+   * ```
+   */
+  schema?: T extends ObjectArraySchemaType ? ObjectSchema : undefined;
+  /**
+   * Schemas 设置，ArraySchema 可用
+   * Schemas setting works on ArraySchema
+   * @example
+   * ```typescript
    * {
    *   schemas: [
    *     Schema.string(),
@@ -103,13 +125,7 @@ export interface SchemaOption<T> {
    * }
    * ```
    */
-  schemas?: T extends ObjectSchemaType
-    ? Record<string, Schema<SchemaType>>
-    : T extends ObjectArraySchemaType
-    ? ObjectSchema[]
-    : T extends ArraySchemaType
-    ? (StringSchema | NumberSchema | BooleanSchema | ObjectSchema)[]
-    : undefined;
+  schemas?: T extends ArraySchemaType ? (StringSchema | NumberSchema | BooleanSchema | ObjectSchema)[] : undefined;
 }
 
 /**
@@ -636,18 +652,18 @@ export class ObjectSchema extends Schema<ObjectSchemaType> {
   /**
    * @internal
    */
-  private _schemas: Record<string, Schema<SchemaType>>;
+  private _schema: Record<string, Schema<SchemaType>>;
   /**
    * @internal
    */
   private useValidate = false;
   constructor(options: SchemaOption<ObjectSchemaType>) {
     super(options);
-    const { schemas, validate } = options;
-    if (!isNil(schemas) && schemas) {
-      this._schemas = schemas;
+    const { fieldSchemas, validate } = options;
+    if (!isNil(fieldSchemas) && fieldSchemas) {
+      this._schema = fieldSchemas;
     } else {
-      this._schemas = {};
+      this._schema = {};
     }
     if (validate) {
       this.useValidate = true;
@@ -661,11 +677,11 @@ export class ObjectSchema extends Schema<ObjectSchemaType> {
   }
 
   /**
-   * 对每个 filed 配置一个 Schema
-   * @param schemas - filed 对的 Schema 的集合
+   * 对每个 field 配置一个 Schema
+   * @param schema - field 对的 Schema 的集合
    * @example
    * ```typescript
-   * schema.setSchemas({
+   * schema.setFieldSchemas({
    *   a: Schema.number(),
    *   b: Schema.string().setDefault(''),
    *   c: Schema.boolean(),
@@ -677,8 +693,8 @@ export class ObjectSchema extends Schema<ObjectSchemaType> {
    * });
    * ```
    */
-  setSchemas(schemas: Record<string, Schema<SchemaType>>): ObjectSchema {
-    this._schemas = schemas;
+  setFieldSchemas(fieldSchemas: Record<string, Schema<SchemaType>>): ObjectSchema {
+    this._schema = fieldSchemas;
     return this;
   }
 
@@ -703,8 +719,8 @@ export class ObjectSchema extends Schema<ObjectSchemaType> {
       }
     } else {
       isValid = true;
-      for (const key in this._schemas) {
-        const subSchema = this._schemas[key];
+      for (const key in this._schema) {
+        const subSchema = this._schema[key];
         const [_isValid, _result] = subSchema.validate(param[key]);
         if (_isValid) {
           result[key] = _result;
@@ -735,7 +751,7 @@ export class ObjectSchema extends Schema<ObjectSchemaType> {
    * ```
    */
   merge(os: ObjectSchema): ObjectSchema {
-    Object.assign(this._schemas, (os as any)._schemas);
+    Object.assign(this._schema, (os as any)._schema);
     return this;
   }
 }
@@ -747,19 +763,18 @@ export class ObjectArraySchema extends Schema<ObjectArraySchemaType> {
   /**
    * @internal
    */
-  private _schemas: ObjectSchema[];
+  private _schema: ObjectSchema;
   /**
    * @internal
    */
   private useValidate = false;
   constructor(options: SchemaOption<ObjectArraySchemaType>) {
     super(options);
-    const { schemas, validate } = options;
-    if (!isNil(schemas) && schemas) {
-      // todo - check is schema
-      this._schemas = schemas;
+    const { schema, validate } = options;
+    if (!isNil(schema) && schema) {
+      this._schema = schema;
     } else {
-      this._schemas = [];
+      this._schema = new ObjectSchema({ type: 'object' });
     }
     if (validate) {
       this.useValidate = true;
@@ -773,18 +788,19 @@ export class ObjectArraySchema extends Schema<ObjectArraySchemaType> {
   }
 
   /**
-   * 可设置多个 Schemas 用于检验参数类型为 object 数组中的每项是否能通过 Schemas 中任意一个的检验，只有 object 数组每项都通过检查，才认定参数为合法的
-   * @param schemas - ObjectSchema 的集合
+   * 对每个 filed 配置一个 Schema
+   * @param schema - filed 对的 Schema 的集合
    * @example
    * ```typescript
-   * schema.setSchemas([
-   *   Schema.object({ a: Schema.string() }),
-   *   Schema.object({ b: Schema.nubmer() }),
-   * ]);
+   * schema.setSchema(Schema.object().setSchemas({
+   *   a: Schema.number().setDefault(1),
+   *   b: Schema.string(),
+   *   c: Schema.booleanArray(),
+   * }));
    * ```
    */
-  setSchemas(schemas: ObjectSchema[]): ObjectArraySchema {
-    this._schemas = schemas;
+  setSchema(schema: ObjectSchema): ObjectArraySchema {
+    this._schema = schema;
     return this;
   }
 
@@ -811,16 +827,12 @@ export class ObjectArraySchema extends Schema<ObjectArraySchemaType> {
     } else {
       isValid = true;
       for (const item of param) {
-        let flag = false;
-        for (const schema of this._schemas) {
-          const [_isValid, _result] = schema.validate(item);
-          if (_isValid && _result) {
-            flag = true;
-            result.push(_result);
-            break;
+        const [_isValid, _result] = this._schema.validate(item);
+        if (_isValid) {
+          if (!isNil(_result)) {
+            result.push(_result as Record<string, any>);
           }
-        }
-        if (!flag) {
+        } else {
           isValid = false;
           break;
         }

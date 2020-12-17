@@ -88,10 +88,12 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="schemaoption.html#defaultvalue" class="tsd-kind-icon">default<wbr>Value</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="schemaoption.html#fieldschemas" class="tsd-kind-icon">field<wbr>Schemas</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="schemaoption.html#max" class="tsd-kind-icon">max</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="schemaoption.html#min" class="tsd-kind-icon">min</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="schemaoption.html#range" class="tsd-kind-icon">range</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="schemaoption.html#required" class="tsd-kind-icon">required</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="schemaoption.html#schema" class="tsd-kind-icon">schema</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="schemaoption.html#schemas" class="tsd-kind-icon">schemas</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="schemaoption.html#type" class="tsd-kind-icon">type</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="schemaoption.html#validate" class="tsd-kind-icon">validate</a></li>
@@ -112,6 +114,31 @@
 						<div class="lead">
 							<p>Schema 默认值 / The default value of Schema</p>
 						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="fieldschemas" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> field<wbr>Schemas</h3>
+					<div class="tsd-signature tsd-kind-icon">field<wbr>Schemas<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">ObjectSchemaType</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Schema</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SchemaType</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>对象字段的 Schemas 设置，ObjectSchema 可用
+							Schemas of object fields setting works on ObjectSchema</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>example</dt>
+							<dd><pre><code class="language-typescript"><span class="hljs-comment">// fieldSchemas 参数应为对象，且对象中属性对应的值为 Schema</span>
+<span class="hljs-comment">// The fieldSchemas must be an object, and all value of that object must be a Schema</span>
+{
+  <span class="hljs-attr">fieldSchemas</span>: {
+    <span class="hljs-attr">foo</span>: Schema.string(),
+    <span class="hljs-attr">bar</span>: Schema.number(),
+  }
+}</code></pre>
+							</dd>
+						</dl>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
@@ -164,29 +191,44 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="schemas" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> schemas</h3>
-					<div class="tsd-signature tsd-kind-icon">schemas<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">ObjectSchemaType</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Schema</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SchemaType</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">ObjectArraySchemaType</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">ObjectSchema</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">ArraySchemaType</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">StringSchema</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">NumberSchema</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">BooleanSchema</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ObjectSchema</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">undefined</span></div>
+					<a name="schema" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> schema</h3>
+					<div class="tsd-signature tsd-kind-icon">schema<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">ObjectArraySchemaType</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">ObjectSchema</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Schema 设置，ObjectSchema、ObjectArraySchema 和 ArraySchema 可用
-							Schema setting works on ObjectSchema, ObjectArraySchema and ArraySchema</p>
+							<p>Schema 设置，ObjectArraySchema 可用
+							Schema setting works on ObjectArraySchema</p>
 						</div>
 						<dl class="tsd-comment-tags">
 							<dt>example</dt>
-							<dd><pre><code class="language-typescript"><span class="hljs-comment">// 当创建 ObjectSchema 时，schemas 参数应为对象，且对象中属性对应的值为 Schema</span>
-<span class="hljs-comment">// When create ObjectASchema, the schemas must be an object, and all value of that object must be a Schema</span>
-{
-  <span class="hljs-attr">schemas</span>: {
-    <span class="hljs-attr">foo</span>: Schema.string(),
-    <span class="hljs-attr">bar</span>: Schema.number(),
-  }
-}
-<span class="hljs-comment">// 当创建 ObjectArraySchema 或 ArraySchema 时，schemas 参数应为 Schema 数组</span>
-<span class="hljs-comment">// When create ObjectArraySchema or ArraySchema, the schemas in options should be an array of Schemas</span>
-{
+							<dd><pre><code class="language-typescript">{
+  <span class="hljs-attr">schemas</span>: Schema.object({
+    <span class="hljs-attr">schemas</span>: {
+      <span class="hljs-attr">foo</span>: Schema.string(),
+      <span class="hljs-attr">bar</span>: Schema.number(),
+    }
+  })
+}</code></pre>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="schemas" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> schemas</h3>
+					<div class="tsd-signature tsd-kind-icon">schemas<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">ArraySchemaType</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">StringSchema</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">NumberSchema</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">BooleanSchema</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ObjectSchema</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Schemas 设置，ArraySchema 可用
+							Schemas setting works on ArraySchema</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>example</dt>
+							<dd><pre><code class="language-typescript">{
   <span class="hljs-attr">schemas</span>: [
     Schema.string(),
     Schema.number(),
@@ -277,6 +319,9 @@
 								<a href="schemaoption.html#defaultvalue" class="tsd-kind-icon">default<wbr>Value</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="schemaoption.html#fieldschemas" class="tsd-kind-icon">field<wbr>Schemas</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="schemaoption.html#max" class="tsd-kind-icon">max</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
@@ -287,6 +332,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="schemaoption.html#required" class="tsd-kind-icon">required</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="schemaoption.html#schema" class="tsd-kind-icon">schema</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="schemaoption.html#schemas" class="tsd-kind-icon">schemas</a>
