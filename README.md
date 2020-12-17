@@ -80,7 +80,7 @@ const [ isValid, result ] = schema.validate([1, 2, 3]);
 console.log(isValid, result); // 输出 true [1, 2, 3]
 ```
 
-### boolean 类型的参数
+#### boolean 类型的参数
 
 ```typescript
 const schema = Schema.boolean(); // 做最简单检验，检验是不是一个布尔值
